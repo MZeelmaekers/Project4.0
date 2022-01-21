@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/pages/home.dart';
 
 void main() {
-  runApp(const AnalyserApp());
+  runApp(AnalyserApp());
 }
 
 class AnalyserApp extends StatelessWidget {
-  const AnalyserApp({Key? key}) : super(key: key);
+  AnalyserApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -17,7 +17,7 @@ class AnalyserApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project40_mobile_app/pages/plant_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -91,23 +92,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _navigateToUpload() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => UploadPage()),
-    );
+  //   await Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => UploadPage()),
+  //   );
   }
 
   void _navigateToPhoto() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PhotoPage()),
-    );
+    // await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => PhotoPage()),
+    // );
   }
 
   void _navigateToResults() async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ResultsPage()),
+      MaterialPageRoute(builder: (context) => PlantListPage()),
     );
   }
 }
