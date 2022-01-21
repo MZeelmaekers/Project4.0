@@ -2,14 +2,13 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/pages/home.dart';
 
-Future<void> main() async {
+
+void main() {
   runApp(AnalyserApp());
 }
 
 class AnalyserApp extends StatelessWidget {
-  AnalyserApp({
-    Key? key,
-  }) : super(key: key);
+  AnalyserApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override

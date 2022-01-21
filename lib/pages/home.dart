@@ -1,10 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project40_mobile_app/pages/plant_list.dart';
 import 'package:project40_mobile_app/pages/photo.dart';
-
-
-
 
 class HomePage extends StatefulWidget {
  
@@ -104,10 +102,17 @@ class _HomePageState extends State<HomePage> {
   
 
   void _navigateToUpload() async {
-    // await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => UploadPage()),
-    // );
+  //   await Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => UploadPage()),
+  //   );
+  }
+
+  void _navigateToResults() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PlantListPage()),
+    );
   }
 
   void _navigateToPhoto() async {
@@ -123,12 +128,5 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera,)),
     );
-  }
-
-  void _navigateToResults() async {
-    // await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => ResultsPage()),
-    // );
   }
 }
