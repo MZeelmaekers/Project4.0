@@ -1,5 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/pages/home.dart';
+
 
 void main() {
   runApp(AnalyserApp());

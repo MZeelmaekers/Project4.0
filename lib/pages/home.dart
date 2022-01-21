@@ -1,15 +1,23 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/pages/plant_list.dart';
+import 'package:project40_mobile_app/pages/photo.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+ 
+
+
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +63,7 @@ class _HomePageState extends State<HomePage> {
                   minimumSize: Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
+                
                 _navigateToPhoto();
               },
               child: const Text(
@@ -90,6 +99,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+  
 
   void _navigateToUpload() async {
   //   await Navigator.push(
@@ -98,17 +108,25 @@ class _HomePageState extends State<HomePage> {
   //   );
   }
 
-  void _navigateToPhoto() async {
-    // await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => PhotoPage()),
-    // );
-  }
-
   void _navigateToResults() async {
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PlantListPage()),
+    );
+  }
+
+  void _navigateToPhoto() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // Obtain a list of the available cameras on the device.
+    final cameras =  await availableCameras();
+
+    // Get a specific camera from the list of available cameras.
+    final firstCamera = cameras[0];
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera,)),
     );
   }
 }
