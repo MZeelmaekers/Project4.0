@@ -3,13 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/pages/photo.dart';
 
+
+
+
 class HomePage extends StatefulWidget {
+ 
+
+
   const HomePage({
     Key? key,
-    required this.camera,
   }) : super(key: key);
-
-  final CameraDescription camera;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -108,9 +111,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _navigateToPhoto() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // Obtain a list of the available cameras on the device.
+    final cameras =  await availableCameras();
+
+    // Get a specific camera from the list of available cameras.
+    final firstCamera = cameras[0];
+
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => TakePictureScreen(camera: widget.camera)),
+      MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera,)),
     );
   }
 
