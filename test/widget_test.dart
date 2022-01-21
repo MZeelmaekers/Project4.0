@@ -11,17 +11,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:project40_mobile_app/main.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Obtain a list of the available cameras on the device.
-  final cameras = await availableCameras();
-
-  // Get a specific camera from the list of available cameras.
-  final firstCamera = cameras.first;
+void main(){
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(AnalyserApp(camera: firstCamera,));
+    await tester.pumpWidget(AnalyserApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

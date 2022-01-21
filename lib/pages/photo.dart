@@ -2,13 +2,15 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class TakePictureScreen extends StatefulWidget {
-  const TakePictureScreen({
-    Key? key,
-    required this.camera,
-  }) : super(key: key);
 
+
+
+class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
+
+  const TakePictureScreen({
+    Key? key, required this.camera
+  }) : super(key: key);
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
@@ -60,6 +62,14 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                   CameraPreview(_controller),
                   Center(
                     child: ElevatedButton(
+                  
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(60, 60),
+  	                    shape: new RoundedRectangleBorder(
+    	                  borderRadius: new BorderRadius.circular(180.0),
+                        ),
+                      ),
+
                       // Provide an onPressed callback.
                       onPressed: () async {
                         // Take the Picture in a try / catch block. If anything goes wrong,
@@ -76,6 +86,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           print(e);
                         }
                       },
+                      
                       child: const Icon(Icons.camera_alt),
                     ),
                   )
