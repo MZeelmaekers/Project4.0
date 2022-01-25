@@ -1,27 +1,29 @@
-enum GrowthState { WEEK1, WEEK2, WEEK3, WEEK4, WEEK5, WEEK6 }
+import "package:intl/intl.dart";
+
+final DateFormat formatter = DateFormat("dd/MM/yyyy H:m:s");
 
 class Result {
-  String id;
-  String growthState;
+  int id;
+  String prediction;
   double accuracy;
   String createdAt;
 
   Result(
       {required this.id,
-      required this.growthState,
+      required this.prediction,
       required this.accuracy,
       required this.createdAt});
 
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
-        id: json['_id'],
-        growthState: json['growthState'],
+        id: json['id'],
+        prediction: json['prediction'],
         accuracy: json['accuracy'],
-        createdAt: json['createdAt']);
+        createdAt: formatter.format(DateTime.parse(json['createdAt'])));
   }
 
   Map<String, dynamic> toJson() => {
-        'growthState': growthState,
+        'prediction': prediction,
         'accuracy': accuracy,
       };
 }

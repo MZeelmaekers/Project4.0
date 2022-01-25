@@ -79,7 +79,7 @@ class _PlantListPageState extends State<PlantListPage> {
         });
   }
 
-  void _navigateToPlantDetail(String id) async {
+  void _navigateToPlantDetail(int id) async {
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PlantDetailPage(id: id)),

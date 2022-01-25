@@ -1,43 +1,50 @@
 import "package:intl/intl.dart";
+import "package:project40_mobile_app/models/result.dart";
+import "package:project40_mobile_app/models/user.dart";
+import "package:project40_mobile_app/models/camerabox.dart";
 
 // Formatter for createdAt
 final DateFormat formatter = DateFormat("dd/MM/yyyy H:m:s");
 
 class Plant {
-  String id;
-  String userId;
-  String resultId;
-  String cameraBoxId;
+  int id;
+  int userId;
+  int resultId;
   String fotoPath;
   String location;
   String createdAt;
+  Result? result;
+  User? user;
 
-  Plant(
-      {required this.id,
-      required this.userId,
-      required this.resultId,
-      required this.cameraBoxId,
-      required this.fotoPath,
-      required this.location,
-      required this.createdAt});
+  Plant({
+    required this.id,
+    required this.userId,
+    required this.resultId,
+    required this.fotoPath,
+    required this.location,
+    required this.createdAt,
+    this.result,
+    this.user,
+  });
 
   factory Plant.fromJson(Map<String, dynamic> json) {
     return Plant(
-        id: json['_id'],
-        userId: json['userId'],
-        // Checks if result is Not null otherwise return ""
-        resultId: json['resultId'] ?? "",
-        cameraBoxId: json['cameraBoxId'] ?? "",
-        fotoPath: json['fotoPath'],
-        location: json['location'],
-        // Format the date to remove T and Z in the date (look api call)
-        createdAt: formatter.format(DateTime.parse(json['createdAt'])));
+      id: json['id'],
+      userId: json['userId'],
+      // Checks if result is Not null otherwise return ""
+      resultId: json['resultId'] ?? 0,
+      fotoPath: json['fotoPath'],
+      location: json['location'],
+      // Format the date to remove T and Z in the date (look api call)
+      createdAt: formatter.format(DateTime.parse(json['createdAt'])),
+      result: Result.fromJson(json["result"] ?? null),
+      user: User.fromJson(json["user"] ?? null),
+    );
   }
 
   Map<String, dynamic> toJson() => {
         'userId': userId,
         'resultId': resultId,
-        'cameraBoxId': cameraBoxId,
         'fotoPath': fotoPath,
         'location': location
       };
