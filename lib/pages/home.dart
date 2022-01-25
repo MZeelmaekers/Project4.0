@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.all(10),
             ),
             const Text(
-              "VITO Anlayser app",
+              "VITO Analayser app",
               style: TextStyle(
                 fontSize: 40.0,
                 decoration: TextDecoration.none,

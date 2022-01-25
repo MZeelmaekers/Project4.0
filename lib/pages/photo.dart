@@ -1,16 +1,15 @@
+import 'dart:convert';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-
-
+import 'package:azblob/azblob.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
 
-  const TakePictureScreen({
-    Key? key, required this.camera
-  }) : super(key: key);
+  const TakePictureScreen({Key? key, required this.camera}) : super(key: key);
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
@@ -60,13 +59,15 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               child: Column(
                 children: [
                   CameraPreview(_controller),
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
+                  ),
                   Center(
                     child: ElevatedButton(
-                  
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(60, 60),
-  	                    shape: new RoundedRectangleBorder(
-    	                  borderRadius: new BorderRadius.circular(180.0),
+                        minimumSize: const Size(70, 70),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(180.0),
                         ),
                       ),
 
@@ -78,16 +79,29 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           // Ensure that the camera is initialized.
                           await _initializeControllerFuture;
 
+                          // Setup Azurestorage
+                          var azureStorage = AzureStorage.parse(
+                              'DefaultEndpointsProtocol=https;AccountName=storagemainfotosplanten;AccountKey=YHIqjHCcXi8IO3DabS+N1lRzrBoltBaDDofu9vJmMo2tMQghoHMQ8fKT/GXVD0Q569EW8pfuJVqv7CjVkPreVA==;EndpointSuffix=core.windows.net');
                           // Attempt to take a picture and then get the location
                           // where the image file is saved.
                           final image = await _controller.takePicture();
+
+                          // Upload the image to the Blob storage on Azure => Bodybytes sends the data of the image
+                          await azureStorage.putBlob('/botanic/' + image.name,
+                              bodyBytes: await image.readAsBytes());
+                        } on AzureStorageException catch (ex) {
+                          // Error of Azure
+                          print(ex.message);
                         } catch (e) {
                           // If an error occurs, log the error to the console.
                           print(e);
                         }
                       },
-                      
-                      child: const Icon(Icons.camera_alt),
+
+                      child: const Icon(
+                        Icons.camera_alt,
+                        size: 36,
+                      ),
                     ),
                   )
                 ],
