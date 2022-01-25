@@ -3,10 +3,11 @@ import 'dart:convert';
 import '../models/result.dart';
 
 class ResultApi {
-  static String server = "project-api-gateway.herokuapp.com";
+  static String server =
+      "project40-api-dot-net20220124112651.azurewebsites.net/api";
 
   static Future<List<Result>> fetchResults() async {
-    var url = Uri.https(server, 'results');
+    var url = Uri.https(server, 'Result');
 
     final response = await http.get(url);
 
@@ -20,8 +21,8 @@ class ResultApi {
     }
   }
 
-  static Future<Result> fetchResult(String id) async {
-    var url = Uri.https(server, '/results/' + id.toString());
+  static Future<Result> fetchResult(int id) async {
+    var url = Uri.https(server, '/api/Result/' + id.toString());
 
     print(url);
     final response = await http.get(url);

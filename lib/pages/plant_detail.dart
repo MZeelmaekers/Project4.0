@@ -5,7 +5,7 @@ import '../apis/plant_api.dart';
 import '../apis/result_api.dart';
 
 class PlantDetailPage extends StatefulWidget {
-  final String id;
+  final int id;
   const PlantDetailPage({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
     _getPlant(widget.id);
   }
 
-  void _getPlant(String id) {
+  void _getPlant(int id) {
     PlantApi.fetchPlant(id).then((result) {
       setState(() {
         plant = result;
@@ -57,7 +57,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
           Image.network(
               "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Suikermais_kiemplant_groot.jpg/174px-Suikermais_kiemplant_groot.jpg"),
           Text(
-            "Result: Week 3",
+            "Result: " + plant!.result!.prediction,
             style: textStyle,
           ),
           Padding(
@@ -73,7 +73,12 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
           Text(
             "Date: " + plant!.createdAt,
             style: textStyle,
-          )
+          ),
+          Padding(
+            padding: EdgeInsets.all(10.0),
+          ),
+          Text("Accuracy: " + plant!.result!.accuracy.toString(),
+              style: textStyle)
         ],
       );
     }
