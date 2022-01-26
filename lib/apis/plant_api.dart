@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/plant.dart';
@@ -13,6 +15,7 @@ class PlantApi {
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
+
       return jsonResponse.map((plant) => Plant.fromJson(plant)).toList();
     } else {
       throw Exception("Failed to load plants");
