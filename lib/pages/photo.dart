@@ -5,6 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:azblob/azblob.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:project40_mobile_app/apis/plant_api.dart';
+import 'package:project40_mobile_app/apis/result_api.dart';
+import 'package:project40_mobile_app/models/plant.dart';
+import 'package:project40_mobile_app/models/result.dart';
+import 'package:project40_mobile_app/pages/plant_detail.dart';
+import 'package:project40_mobile_app/pages/plant_list.dart';
 
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
@@ -89,6 +95,16 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           // Upload the image to the Blob storage on Azure => Bodybytes sends the data of the image
                           await azureStorage.putBlob('/botanic/' + image.name,
                               bodyBytes: await image.readAsBytes());
+
+                          // Wait for a result page from the AI API
+                          Result newResult = await _getResult();
+
+                          // Create a plant object in the database
+                          int plantId =
+                              await _createPlant(image.name, newResult.id);
+
+                          // Go to the Result detail page of the newly created object
+                          _navigateToPlantDetailPage(plantId);
                         } on AzureStorageException catch (ex) {
                           // Error of Azure
                           print(ex.message);
@@ -113,6 +129,32 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           }
         },
       ),
+    );
+  }
+
+  Future<Result> _getResult() async {
+    Result result =
+        new Result(accuracy: 78.12, prediction: 'WEEK1', createdAt: '', id: 0);
+
+    return ResultApi.createResult(result);
+  }
+
+  Future<int> _createPlant(imageName, resultId) {
+    Plant plant = new Plant(
+        id: 0,
+        location: "",
+        fotoPath: imageName,
+        userId: 2,
+        createdAt: DateTime.now().toString(),
+        resultId: resultId);
+
+    return PlantApi.createPlant(plant);
+  }
+
+  void _navigateToPlantDetailPage(int id) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PlantDetailPage(id: id)),
     );
   }
 }
