@@ -4,10 +4,10 @@ import '../models/result.dart';
 
 class ResultApi {
   static String server =
-      "project40-api-dot-net20220124112651.azurewebsites.net/api";
+      "project40-api-dot-net20220124112651.azurewebsites.net";
 
   static Future<List<Result>> fetchResults() async {
-    var url = Uri.https(server, 'Result');
+    var url = Uri.https(server, '/api/Result');
 
     final response = await http.get(url);
 
@@ -30,6 +30,25 @@ class ResultApi {
       return Result.fromJson(jsonDecode(response.body));
     } else {
       throw Exception("Failed to load Result");
+    }
+  }
+
+  static Future<Result> createResult(Result result) async {
+    var url = Uri.https(server, '/api/Result');
+    final http.Response response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(result),
+    );
+    if (response.statusCode != 201) {
+      print("=" * 50);
+      print(response.body);
+      print("=" * 50);
+      throw Exception("Failed to create Plant");
+    } else {
+      return Result.fromJson(jsonDecode(response.body));
     }
   }
 }

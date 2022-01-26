@@ -30,4 +30,24 @@ class PlantApi {
       throw Exception("Failed to load plant");
     }
   }
+
+  static Future<int> createPlant(Plant plant) async {
+    var url = Uri.https(server, '/api/Plant');
+    final http.Response response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(plant),
+    );
+    if (response.statusCode != 201) {
+      print("=" * 50);
+      print(response.body);
+      print("=" * 50);
+      throw Exception("Failed to create Plant");
+    } else {
+      var id = json.decode(response.body)["id"];
+      return id;
+    }
+  }
 }

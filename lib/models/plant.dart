@@ -4,7 +4,7 @@ import "package:project40_mobile_app/models/user.dart";
 import "package:project40_mobile_app/models/camerabox.dart";
 
 // Formatter for createdAt
-final DateFormat formatter = DateFormat("dd/MM/yyyy H:m:s");
+final DateFormat formatter = DateFormat("dd/MM/yyyy HH:mm:ss");
 
 class Plant {
   int id;
@@ -37,8 +37,8 @@ class Plant {
       location: json['location'],
       // Format the date to remove T and Z in the date (look api call)
       createdAt: formatter.format(DateTime.parse(json['createdAt'])),
-      result: Result.fromJson(json["result"] ?? null),
-      user: User.fromJson(json["user"] ?? null),
+      result: Result.fromJson(json["result"] ?? {}),
+      user: User.fromJson(json["user"] ?? {}),
     );
   }
 
