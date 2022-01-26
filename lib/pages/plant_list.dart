@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/pages/plant_detail.dart';
@@ -16,6 +18,7 @@ class PlantListPage extends StatefulWidget {
 class _PlantListPageState extends State<PlantListPage> {
   List<Plant> plantList = [];
   int count = 0;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -24,11 +27,19 @@ class _PlantListPageState extends State<PlantListPage> {
   }
 
   void _getPlants() {
+    setState(() {
+      _isLoading = true;
+      plantList = [];
+      count = 0;
+    });
     PlantApi.fetchPlants().then((result) {
       setState(() {
         plantList = result;
         count = result.length;
       });
+    });
+    setState(() {
+      _isLoading = false;
     });
   }
 
@@ -38,10 +49,19 @@ class _PlantListPageState extends State<PlantListPage> {
       appBar: AppBar(
         title: const Text("Results"),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: _plantListItems(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _getPlants();
+        },
+        tooltip: "Refresh",
+        child: const Icon(Icons.refresh),
       ),
+      body: _isLoading
+          ? CircularProgressIndicator()
+          : Container(
+              alignment: Alignment.center,
+              child: _plantListItems(),
+            ),
     );
   }
 
