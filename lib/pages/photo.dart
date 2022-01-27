@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,7 +8,6 @@ import 'package:project40_mobile_app/apis/result_api.dart';
 import 'package:project40_mobile_app/models/plant.dart';
 import 'package:project40_mobile_app/models/result.dart';
 import 'package:project40_mobile_app/pages/plant_detail.dart';
-import 'package:project40_mobile_app/pages/plant_list.dart';
 
 import 'package:project40_mobile_app/global_vars.dart' as global;
 
@@ -74,8 +71,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(70, 70),
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(180.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(180.0),
                         ),
                       ),
 
@@ -136,13 +133,13 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
   Future<Result> _getResult() async {
     Result result =
-        new Result(accuracy: 78.12, prediction: 'WEEK1', createdAt: '', id: 0);
+        Result(accuracy: 78.12, prediction: 'WEEK1', createdAt: '', id: 0);
 
     return ResultApi.createResult(result);
   }
 
   Future<int> _createPlant(imageName, resultId) {
-    Plant plant = new Plant(
+    Plant plant = Plant(
         id: 0,
         location: "18.9187,71.192",
         fotoPath: imageName,

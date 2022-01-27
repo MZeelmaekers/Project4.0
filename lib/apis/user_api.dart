@@ -1,9 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:project40_mobile_app/models/user.dart';
 import 'dart:convert';
-import '../models/result.dart';
-
-import 'package:project40_mobile_app/global_vars.dart' as global;
 
 class UserApi {
   static String server =

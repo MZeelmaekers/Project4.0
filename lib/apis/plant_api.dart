@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/plant.dart';
@@ -62,9 +60,6 @@ class PlantApi {
       body: jsonEncode(plant),
     );
     if (response.statusCode != 201) {
-      print("=" * 50);
-      print(response.body);
-      print("=" * 50);
       throw Exception("Failed to create Plant");
     } else {
       var id = json.decode(response.body)["id"];

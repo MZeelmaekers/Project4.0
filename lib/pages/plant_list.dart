@@ -1,10 +1,10 @@
-import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:azblob/azblob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:project40_mobile_app/pages/plant_detail.dart';
-import '../models/result.dart';
-import '../apis/result_api.dart';
 import '../models/plant.dart';
 import '../apis/plant_api.dart';
 import 'package:project40_mobile_app/global_vars.dart' as global;
@@ -22,6 +22,8 @@ class _PlantListPageState extends State<PlantListPage> {
   bool _isLoading = false;
   int userId = global.userId;
   String token = global.userToken;
+  AzureStorage azureStorage = AzureStorage.parse(
+      'DefaultEndpointsProtocol=https;AccountName=storagemainfotosplanten;AccountKey=YHIqjHCcXi8IO3DabS+N1lRzrBoltBaDDofu9vJmMo2tMQghoHMQ8fKT/GXVD0Q569EW8pfuJVqv7CjVkPreVA==;EndpointSuffix=core.windows.net');
 
   @override
   void initState() {
@@ -60,7 +62,7 @@ class _PlantListPageState extends State<PlantListPage> {
         child: const Icon(Icons.refresh),
       ),
       body: _isLoading
-          ? CircularProgressIndicator()
+          ? const CircularProgressIndicator()
           : Container(
               alignment: Alignment.center,
               child: _plantListItems(),
@@ -75,13 +77,25 @@ class _PlantListPageState extends State<PlantListPage> {
           return Card(
             color: Colors.white,
             elevation: 2.0,
-            margin: EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(10.0),
             child: ListTile(
-                leading: Image.network(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Suikermais_kiemplant_groot.jpg/174px-Suikermais_kiemplant_groot.jpg"),
+                leading: FutureBuilder<Uint8List>(
+                  future: _getImage(plantList[position].fotoPath),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Uint8List> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Image.memory(
+                        snapshot.data!,
+                        height: 400.0,
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
                 title: Text(
                   plantList[position].createdAt.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     decoration: TextDecoration.none,
                     fontWeight: FontWeight.normal,
@@ -89,7 +103,7 @@ class _PlantListPageState extends State<PlantListPage> {
                 ),
                 subtitle: Text(
                   plantList[position].location.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     decoration: TextDecoration.none,
                     fontWeight: FontWeight.normal,
@@ -109,5 +123,19 @@ class _PlantListPageState extends State<PlantListPage> {
     );
 
     _getPlants();
+  }
+
+  Future<Uint8List> _getImage(String imageName) async {
+    // This function gets the image from the Azure blob storage with azblob package.
+    ByteStream? stream;
+    Uint8List bytes = Uint8List(1);
+    await azureStorage.getBlob('/botanic/' + imageName).then((result) {
+      stream = result.stream;
+    });
+    await stream!.toBytes().then((result) {
+      bytes = result;
+    });
+    // Returns the bytes of the image and these will be used to show the image.
+    return bytes;
   }
 }

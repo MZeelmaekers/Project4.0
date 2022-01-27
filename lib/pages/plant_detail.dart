@@ -1,11 +1,14 @@
+import 'dart:typed_data';
+
+import 'package:azblob/azblob.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import '../models/plant.dart';
-import '../models/result.dart';
 import '../apis/plant_api.dart';
-import '../apis/result_api.dart';
 
 class PlantDetailPage extends StatefulWidget {
   final int id;
+
   const PlantDetailPage({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -14,6 +17,8 @@ class PlantDetailPage extends StatefulWidget {
 
 class _PlantDetailPageState extends State<PlantDetailPage> {
   Plant? plant;
+  AzureStorage azureStorage = AzureStorage.parse(
+      'DefaultEndpointsProtocol=https;AccountName=storagemainfotosplanten;AccountKey=YHIqjHCcXi8IO3DabS+N1lRzrBoltBaDDofu9vJmMo2tMQghoHMQ8fKT/GXVD0Q569EW8pfuJVqv7CjVkPreVA==;EndpointSuffix=core.windows.net');
 
   @override
   void initState() {
@@ -46,35 +51,46 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
     if (plant == null) {
       return const Center(child: CircularProgressIndicator());
     } else {
-      TextStyle? textStyle = TextStyle(
+      const TextStyle? textStyle = TextStyle(
         fontSize: 20.0,
         decoration: TextDecoration.none,
         fontWeight: FontWeight.normal,
       );
       return Column(
         children: <Widget>[
-          Padding(padding: EdgeInsets.all(10.0)),
-          Image.network(
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Suikermais_kiemplant_groot.jpg/174px-Suikermais_kiemplant_groot.jpg"),
+          const Padding(padding: EdgeInsets.all(10.0)),
+          FutureBuilder<Uint8List>(
+            future: _getImage(plant!.fotoPath),
+            builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Image.memory(
+                  snapshot.data!,
+                  height: 400.0,
+                );
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
+          ),
           Text(
             "Result: " + plant!.result!.prediction,
             style: textStyle,
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(10.0),
           ),
           Text(
             "Location: " + plant!.location,
             style: textStyle,
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(10.0),
           ),
           Text(
             "Date: " + plant!.createdAt,
             style: textStyle,
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(10.0),
           ),
           Text("Accuracy: " + plant!.result!.accuracy.toString(),
@@ -82,5 +98,19 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
         ],
       );
     }
+  }
+
+  Future<Uint8List> _getImage(String imageName) async {
+    // This function gets the image from the Azure blob storage with azblob package.
+    ByteStream? stream;
+    Uint8List bytes = Uint8List(1);
+    await azureStorage.getBlob('/botanic/' + imageName).then((result) {
+      stream = result.stream;
+    });
+    await stream!.toBytes().then((result) {
+      bytes = result;
+    });
+    // Returns the bytes of the image and these will be used to show the image.
+    return bytes;
   }
 }
