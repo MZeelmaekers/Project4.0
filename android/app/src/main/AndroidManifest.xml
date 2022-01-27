@@ -2,7 +2,7 @@
     package="com.example.project40_mobile_app">
   <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="project40_mobile_app"
+        android:label="Plant Analyser App"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
