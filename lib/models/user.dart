@@ -11,6 +11,7 @@ class User {
   String zipCode;
   String hometown;
   String createdAt;
+  String token;
 
   User(
       {required this.id,
@@ -20,19 +21,20 @@ class User {
       required this.address,
       required this.zipCode,
       required this.hometown,
-      required this.createdAt});
+      required this.createdAt,
+      required this.token});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      name: json['name'],
-      password: json['password'],
-      email: json['email'],
-      address: json['address'],
-      zipCode: json['zipCode'],
-      hometown: json['hometown'],
-      createdAt: formatter.format(DateTime.parse(json['createdAt'])),
-    );
+        id: json['id'],
+        name: json['name'],
+        password: json['password'] ?? "",
+        email: json['email'],
+        address: json['address'],
+        zipCode: json['zipCode'],
+        hometown: json['hometown'],
+        createdAt: formatter.format(DateTime.parse(json['createdAt'])),
+        token: json['token'] ?? "");
   }
 
   Map<String, dynamic> toJson() => {

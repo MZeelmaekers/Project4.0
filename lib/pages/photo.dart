@@ -12,6 +12,8 @@ import 'package:project40_mobile_app/models/result.dart';
 import 'package:project40_mobile_app/pages/plant_detail.dart';
 import 'package:project40_mobile_app/pages/plant_list.dart';
 
+import 'package:project40_mobile_app/global_vars.dart' as global;
+
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
 
@@ -142,9 +144,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   Future<int> _createPlant(imageName, resultId) {
     Plant plant = new Plant(
         id: 0,
-        location: "",
+        location: "18.9187,71.192",
         fotoPath: imageName,
-        userId: 2,
+        userId: global.userId,
         createdAt: DateTime.now().toString(),
         resultId: resultId);
 
