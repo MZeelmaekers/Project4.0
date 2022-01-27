@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/plant.dart';
 
+import 'package:project40_mobile_app/global_vars.dart' as global;
+
 class PlantApi {
   static String server =
       "project40-api-dot-net20220124112651.azurewebsites.net";
@@ -22,10 +24,25 @@ class PlantApi {
     }
   }
 
+  static Future<List<Plant>> fetchPlantsFromUserId(int id) async {
+    var url = Uri.https(server, '/api/Plant/User/' + id.toString());
+
+    final response =
+        await http.get(url, headers: {"Authorization": "Bearer " + global.userToken});
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+
+      return jsonResponse.map((plant) => Plant.fromJson(plant)).toList();
+    } else {
+      throw Exception("Failed to load plants");
+    }
+  }
+
   static Future<Plant> fetchPlant(int id) async {
     var url = Uri.https(server, '/api/Plant/' + id.toString());
 
-    final response = await http.get(url);
+    final response = await http.get(url, headers: {"Authorization": "Bearer " + global.userToken});
 
     if (response.statusCode == 200) {
       return Plant.fromJson(jsonDecode(response.body));
@@ -40,6 +57,7 @@ class PlantApi {
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        "Authorization": "Bearer " + global.userToken
       },
       body: jsonEncode(plant),
     );

@@ -7,6 +7,7 @@ import '../models/result.dart';
 import '../apis/result_api.dart';
 import '../models/plant.dart';
 import '../apis/plant_api.dart';
+import 'package:project40_mobile_app/global_vars.dart' as global;
 
 class PlantListPage extends StatefulWidget {
   const PlantListPage({Key? key}) : super(key: key);
@@ -19,6 +20,8 @@ class _PlantListPageState extends State<PlantListPage> {
   List<Plant> plantList = [];
   int count = 0;
   bool _isLoading = false;
+  int userId = global.userId;
+  String token = global.userToken;
 
   @override
   void initState() {
@@ -32,7 +35,7 @@ class _PlantListPageState extends State<PlantListPage> {
       plantList = [];
       count = 0;
     });
-    PlantApi.fetchPlants().then((result) {
+    PlantApi.fetchPlantsFromUserId(userId).then((result) {
       setState(() {
         plantList = result;
         count = result.length;

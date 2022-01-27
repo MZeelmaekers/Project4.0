@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/result.dart';
 
+import 'package:project40_mobile_app/global_vars.dart' as global;
+
 class ResultApi {
   static String server =
       "project40-api-dot-net20220124112651.azurewebsites.net";
@@ -9,7 +11,8 @@ class ResultApi {
   static Future<List<Result>> fetchResults() async {
     var url = Uri.https(server, '/api/Result');
 
-    final response = await http.get(url);
+    final response = await http
+        .get(url, headers: {"Authorization": "Bearer " + global.userToken});
 
     print(response);
     if (response.statusCode == 200) {
@@ -25,7 +28,8 @@ class ResultApi {
     var url = Uri.https(server, '/api/Result/' + id.toString());
 
     print(url);
-    final response = await http.get(url);
+    final response = await http
+        .get(url, headers: {"Authorization": "Bearer " + global.userToken});
     if (response.statusCode == 200) {
       return Result.fromJson(jsonDecode(response.body));
     } else {
@@ -39,6 +43,7 @@ class ResultApi {
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        "Authorization": "Bearer " + global.userToken
       },
       body: jsonEncode(result),
     );
