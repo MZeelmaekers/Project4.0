@@ -1,7 +1,6 @@
 import "package:intl/intl.dart";
 import "package:project40_mobile_app/models/result.dart";
 import "package:project40_mobile_app/models/user.dart";
-import "package:project40_mobile_app/models/camerabox.dart";
 
 // Formatter for createdAt
 final DateFormat formatter = DateFormat("dd/MM/yyyy HH:mm:ss");

@@ -23,7 +23,7 @@ class CameraBox {
           qrCode: json['qrCode'],
           userId: json['userId'],
           createdAt: formatter.format(DateTime.parse(json['createdAt'])),
-          user: User.fromJson(json['user']??null));
+          user: User.fromJson(json['user']));
   }
 
   Map<String, dynamic> toJson() => {

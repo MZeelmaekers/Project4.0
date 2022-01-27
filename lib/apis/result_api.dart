@@ -14,9 +14,7 @@ class ResultApi {
     final response = await http
         .get(url, headers: {"Authorization": "Bearer " + global.userToken});
 
-    print(response);
     if (response.statusCode == 200) {
-      print(response.body);
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((result) => Result.fromJson(result)).toList();
     } else {
@@ -27,7 +25,6 @@ class ResultApi {
   static Future<Result> fetchResult(int id) async {
     var url = Uri.https(server, '/api/Result/' + id.toString());
 
-    print(url);
     final response = await http
         .get(url, headers: {"Authorization": "Bearer " + global.userToken});
     if (response.statusCode == 200) {
@@ -48,9 +45,6 @@ class ResultApi {
       body: jsonEncode(result),
     );
     if (response.statusCode != 201) {
-      print("=" * 50);
-      print(response.body);
-      print("=" * 50);
       throw Exception("Failed to create Plant");
     } else {
       return Result.fromJson(jsonDecode(response.body));

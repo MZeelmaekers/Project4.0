@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:project40_mobile_app/global_vars.dart' as global;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/apis/user_api.dart';
-import 'package:project40_mobile_app/main.dart';
 import 'package:project40_mobile_app/models/user.dart';
 import 'package:project40_mobile_app/pages/home.dart';
 
@@ -35,10 +32,10 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Login")),
       body: Container(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            Padding(padding: EdgeInsets.all(10.0)),
+            const Padding(padding: EdgeInsets.all(10.0)),
             _loginForm(),
           ],
         ),
@@ -49,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   _loginForm() {
     return Column(
       children: <Widget>[
-        Text("Email"),
+        const Text("Email"),
         TextField(
           controller: emailController,
           keyboardType: TextInputType.text,
@@ -60,10 +57,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.all(10.0),
         ),
-        Text("Password"),
+        const Text("Password"),
         TextField(
           controller: passwordController,
           obscureText: true,
@@ -75,14 +72,14 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.all(10.0),
         ),
         ElevatedButton(
           onPressed: _login,
-          child: Text("Login"),
+          child: const Text("Login"),
           style: ElevatedButton.styleFrom(
-              minimumSize: Size(30, 50) // put the width and height you want
+              minimumSize: const Size(30, 50) // put the width and height you want
               ),
         ),
       ],
@@ -100,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
       global.userToken = user.token;
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
     });
   }
 }

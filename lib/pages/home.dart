@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project40_mobile_app/main.dart';
 import 'package:project40_mobile_app/pages/login_page.dart';
 import 'package:project40_mobile_app/pages/plant_list.dart';
 import 'package:project40_mobile_app/pages/photo.dart';
@@ -24,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10),
             ),
             const Text(
@@ -35,12 +34,12 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size(30, 50) // put the width and height you want
+                  minimumSize: const Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToUpload();
@@ -54,12 +53,12 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size(30, 50) // put the width and height you want
+                  minimumSize: const Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToPhoto();
@@ -73,12 +72,12 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size(30, 50) // put the width and height you want
+                  minimumSize: const Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToResults();
@@ -92,10 +91,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.all(10.0)),
+            const Padding(padding: EdgeInsets.all(10.0)),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size(30, 50) // put the width and height you want
+                  minimumSize: const Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
                 _logout();
@@ -125,7 +124,7 @@ class _HomePageState extends State<HomePage> {
   void _navigateToResults() async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PlantListPage()),
+      MaterialPageRoute(builder: (context) => const PlantListPage()),
     );
   }
 
@@ -134,7 +133,7 @@ class _HomePageState extends State<HomePage> {
     global.userId = 0;
 
     await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+        context, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 
   void _navigateToPhoto() async {
