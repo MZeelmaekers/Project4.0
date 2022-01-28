@@ -5,6 +5,7 @@ import 'package:project40_mobile_app/pages/login_page.dart';
 import 'package:project40_mobile_app/pages/plant_list.dart';
 import 'package:project40_mobile_app/pages/photo.dart';
 import 'package:project40_mobile_app/global_vars.dart' as global;
+import 'package:project40_mobile_app/pages/upload_photo.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -39,7 +40,8 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(30, 50) // put the width and height you want
+                  minimumSize:
+                      const Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToUpload();
@@ -58,7 +60,8 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(30, 50) // put the width and height you want
+                  minimumSize:
+                      const Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToPhoto();
@@ -77,7 +80,8 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(30, 50) // put the width and height you want
+                  minimumSize:
+                      const Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToResults();
@@ -94,7 +98,8 @@ class _HomePageState extends State<HomePage> {
             const Padding(padding: EdgeInsets.all(10.0)),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(30, 50) // put the width and height you want
+                  minimumSize:
+                      const Size(30, 50) // put the width and height you want
                   ),
               onPressed: () {
                 _logout();
@@ -115,10 +120,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _navigateToUpload() async {
-    //   await Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => UploadPage()),
-    //   );
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const UploadPhotoPage()),
+    );
   }
 
   void _navigateToResults() async {
