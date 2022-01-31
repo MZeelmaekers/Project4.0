@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:azblob/azblob.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/apis/plant_api.dart';
 import 'package:project40_mobile_app/apis/result_api.dart';
@@ -7,6 +11,9 @@ import 'package:project40_mobile_app/models/result.dart';
 import 'package:project40_mobile_app/pages/plant_detail.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project40_mobile_app/global_vars.dart' as global;
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart' as async;
+import 'package:http/http.dart' as http;
 
 class UploadPhotoPage extends StatefulWidget {
   const UploadPhotoPage({Key? key}) : super(key: key);
@@ -61,11 +68,40 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
 
   // Implementing the image picker
 
-  Future<Result> _getResult() async {
-    Result result =
-        Result(accuracy: 78.12, prediction: 'WEEK1', createdAt: '', id: 0);
+  Future<Result> _getResult(File imageFile) async {
+    // open a bytestream
+    var stream =
+        new http.ByteStream(async.DelegatingStream.typed(imageFile.openRead()));
+    // get file length
+    var length = await imageFile.length();
 
-    return ResultApi.createResult(result);
+    // string to uri
+    var uri = Uri.parse("https://ai-api-michielvdz.cloud.okteto.net/result");
+
+    // create multipart request
+    var request = new http.MultipartRequest("POST", uri);
+
+    // multipart that takes file
+    var multipartFile = new http.MultipartFile('file', stream, length,
+        filename: path.basename(imageFile.path));
+
+    // add file to multipart
+    request.files.add(multipartFile);
+
+    // send
+    var response = await request.send();
+    
+      var res = response.stream.bytesToString().then((responseStream){
+      var json = jsonDecode(responseStream);
+      Result res = Result(
+        id: 0,
+        prediction: json['week'],
+        accuracy: double.parse(json['accuracy']) * 100,
+        createdAt: '');
+        return res;
+    });
+ 
+        return ResultApi.createResult(await res);
   }
 
   Future<int> _createPlant(imageName, resultId) {
@@ -87,13 +123,15 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
     );
   }
 
+  
+
   _asyncFileUpload(XFile image) async {
     // Upload the image to the Blob storage on Azure => Bodybytes sends the data of the image
     await azureStorage.putBlob('/botanic/' + image.name,
         bodyBytes: await image.readAsBytes());
 
     // Wait for a result page from the AI API
-    Result newResult = await _getResult();
+    Result newResult = await _getResult(File(image.path));
 
     // Create a plant object in the database
     int plantId = await _createPlant(image.name, newResult.id);
