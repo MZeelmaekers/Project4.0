@@ -77,58 +77,64 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                     padding: EdgeInsets.all(10.0),
                   ),
                   Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(70, 70),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(180.0),
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(70, 70),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(180.0),
+                          ),
+                        ),
+
+                        // Provide an onPressed callback.
+                        onPressed: () async {
+                          // Take the Picture in a try / catch block. If anything goes wrong,
+                          // catch the error.
+                          try {
+                            // Ensure that the camera is initialized.
+                            await _initializeControllerFuture;
+
+                            // Setup Azurestorage
+                            var azureStorage = AzureStorage.parse(
+                                'DefaultEndpointsProtocol=https;AccountName=storagemainfotosplanten;AccountKey=YHIqjHCcXi8IO3DabS+N1lRzrBoltBaDDofu9vJmMo2tMQghoHMQ8fKT/GXVD0Q569EW8pfuJVqv7CjVkPreVA==;EndpointSuffix=core.windows.net');
+                            // Attempt to take a picture and then get the location
+                            // where the image file is saved.
+                            final image = await _controller.takePicture();
+
+                            // Upload the image to the Blob storage on Azure => Bodybytes sends the data of the image
+                            await azureStorage.putBlob('/botanic/' + image.name,
+                                bodyBytes: await image.readAsBytes());
+
+                            // Wait for a result page from the AI API
+
+                            Result newResult =
+                                await _getResult(File(image.path));
+
+                            // Create a plant object in the database
+                            int plantId =
+                                await _createPlant(image.name, newResult.id);
+
+                            // Go to the Result detail page of the newly created object
+                            _navigateToPlantDetailPage(plantId);
+                          } on AzureStorageException catch (ex) {
+                            // Error of Azure
+                            print(ex.message);
+                          } catch (e) {
+                            // If an error occurs, log the error to the console.
+                            print(e);
+                          }
+                        },
+
+                        child: const Icon(
+                          Icons.camera_alt,
+                          size: 36,
                         ),
                       ),
-
-                      // Provide an onPressed callback.
-                      onPressed: () async {
-                        // Take the Picture in a try / catch block. If anything goes wrong,
-                        // catch the error.
-                        try {
-                          // Ensure that the camera is initialized.
-                          await _initializeControllerFuture;
-
-                          // Setup Azurestorage
-                          var azureStorage = AzureStorage.parse(
-                              'DefaultEndpointsProtocol=https;AccountName=storagemainfotosplanten;AccountKey=YHIqjHCcXi8IO3DabS+N1lRzrBoltBaDDofu9vJmMo2tMQghoHMQ8fKT/GXVD0Q569EW8pfuJVqv7CjVkPreVA==;EndpointSuffix=core.windows.net');
-                          // Attempt to take a picture and then get the location
-                          // where the image file is saved.
-                          final image = await _controller.takePicture();
-
-                          // Upload the image to the Blob storage on Azure => Bodybytes sends the data of the image
-                          await azureStorage.putBlob('/botanic/' + image.name,
-                              bodyBytes: await image.readAsBytes());
-
-                          // Wait for a result page from the AI API
-
-                          Result newResult = await _getResult(File(image.path));
-
-                          // Create a plant object in the database
-                          int plantId =
-                              await _createPlant(image.name, newResult.id);
-
-                          // Go to the Result detail page of the newly created object
-                          _navigateToPlantDetailPage(plantId);
-                        } on AzureStorageException catch (ex) {
-                          // Error of Azure
-                          print(ex.message);
-                        } catch (e) {
-                          // If an error occurs, log the error to the console.
-                          print(e);
-                        }
-                      },
-
-                      child: const Icon(
-                        Icons.camera_alt,
-                        size: 36,
-                      ),
-                    ),
-                  )
+                    ],
+                  ))
                 ],
               ),
             );
@@ -163,20 +169,18 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
     // send
     var response = await request.send();
-    
-      var res = response.stream.bytesToString().then((responseStream){
+
+    var res = response.stream.bytesToString().then((responseStream) {
       var json = jsonDecode(responseStream);
       Result res = Result(
-        id: 0,
-        prediction: json['week'],
-        accuracy: double.parse(json['accuracy']) * 100,
-        createdAt: '');
-        return res;
+          id: 0,
+          prediction: json['week'],
+          accuracy: double.parse(json['accuracy']) * 100,
+          createdAt: '');
+      return res;
     });
- 
-        return ResultApi.createResult(await res);
-    
-      
+
+    return ResultApi.createResult(await res);
   }
 
   Future<int> _createPlant(imageName, resultId) {
