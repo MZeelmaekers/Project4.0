@@ -12,6 +12,7 @@ import 'package:project40_mobile_app/apis/plant_api.dart';
 import 'package:project40_mobile_app/apis/result_api.dart';
 import 'package:project40_mobile_app/models/plant.dart';
 import 'package:project40_mobile_app/models/result.dart';
+import 'package:project40_mobile_app/pages/photo_detail.dart';
 import 'package:project40_mobile_app/pages/plant_detail.dart';
 import 'package:project40_mobile_app/global_vars.dart' as global;
 import 'package:path/path.dart' as path;
@@ -89,49 +90,31 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                           ),
                         ),
 
-                        // Provide an onPressed callback.
-                        onPressed: () async {
-                          // Take the Picture in a try / catch block. If anything goes wrong,
-                          // catch the error.
-                          try {
-                            // Ensure that the camera is initialized.
-                            await _initializeControllerFuture;
+                      // Provide an onPressed callback.
+                      onPressed: () async {
+                        // Take the Picture in a try / catch block. If anything goes wrong,
+                        // catch the error.
+                        try {
+                          // Ensure that the camera is initialized.
+                          await _initializeControllerFuture;
 
-                            // Setup Azurestorage
-                            var azureStorage = AzureStorage.parse(
-                                'DefaultEndpointsProtocol=https;AccountName=storagemainfotosplanten;AccountKey=YHIqjHCcXi8IO3DabS+N1lRzrBoltBaDDofu9vJmMo2tMQghoHMQ8fKT/GXVD0Q569EW8pfuJVqv7CjVkPreVA==;EndpointSuffix=core.windows.net');
-                            // Attempt to take a picture and then get the location
-                            // where the image file is saved.
-                            final image = await _controller.takePicture();
+                          // Attempt to take a picture and then get the location
+                          // where the image file is saved.
+                          final image = await _controller.takePicture();
+                          
+                          _navigateToPhotoDetailPage(image);
+                        } on AzureStorageException catch (ex) {
+                          // Error of Azure
+                          print(ex.message);
+                        } catch (e) {
+                          // If an error occurs, log the error to the console.
+                          print(e);
+                        }
+                      },
 
-                            // Upload the image to the Blob storage on Azure => Bodybytes sends the data of the image
-                            await azureStorage.putBlob('/botanic/' + image.name,
-                                bodyBytes: await image.readAsBytes());
-
-                            // Wait for a result page from the AI API
-
-                            Result newResult =
-                                await _getResult(File(image.path));
-
-                            // Create a plant object in the database
-                            int plantId =
-                                await _createPlant(image.name, newResult.id);
-
-                            // Go to the Result detail page of the newly created object
-                            _navigateToPlantDetailPage(plantId);
-                          } on AzureStorageException catch (ex) {
-                            // Error of Azure
-                            print(ex.message);
-                          } catch (e) {
-                            // If an error occurs, log the error to the console.
-                            print(e);
-                          }
-                        },
-
-                        child: const Icon(
-                          Icons.camera_alt,
-                          size: 36,
-                        ),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        size: 36,
                       ),
                     ],
                   ))
@@ -147,58 +130,12 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     );
   }
 
-  Future<Result> _getResult(File imageFile) async {
-    // open a bytestream
-    var stream =
-        new http.ByteStream(async.DelegatingStream.typed(imageFile.openRead()));
-    // get file length
-    var length = await imageFile.length();
-
-    // string to uri
-    var uri = Uri.parse("https://ai-api-michielvdz.cloud.okteto.net/result");
-
-    // create multipart request
-    var request = new http.MultipartRequest("POST", uri);
-
-    // multipart that takes file
-    var multipartFile = new http.MultipartFile('file', stream, length,
-        filename: path.basename(imageFile.path));
-
-    // add file to multipart
-    request.files.add(multipartFile);
-
-    // send
-    var response = await request.send();
-
-    var res = response.stream.bytesToString().then((responseStream) {
-      var json = jsonDecode(responseStream);
-      Result res = Result(
-          id: 0,
-          prediction: json['week'],
-          accuracy: double.parse(json['accuracy']) * 100,
-          createdAt: '');
-      return res;
-    });
-
-    return ResultApi.createResult(await res);
-  }
-
-  Future<int> _createPlant(imageName, resultId) {
-    Plant plant = Plant(
-        id: 0,
-        location: "18.9187,71.192",
-        fotoPath: imageName,
-        userId: global.userId,
-        createdAt: DateTime.now().toString(),
-        resultId: resultId);
-
-    return PlantApi.createPlant(plant);
-  }
-
-  void _navigateToPlantDetailPage(int id) async {
+  void _navigateToPhotoDetailPage(XFile image) async {
     await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PlantDetailPage(id: id)),
-    );
+        context,
+        MaterialPageRoute(
+            builder: (context) => PhotoDetailPage(image: image)));
   }
+
+  
 }

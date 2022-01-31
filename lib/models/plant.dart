@@ -11,20 +11,23 @@ class Plant {
   int resultId;
   String fotoPath;
   String location;
+  String fieldName;
+  String name;
   String createdAt;
   Result? result;
   User? user;
 
-  Plant({
-    required this.id,
-    required this.userId,
-    required this.resultId,
-    required this.fotoPath,
-    required this.location,
-    required this.createdAt,
-    this.result,
-    this.user,
-  });
+  Plant(
+      {required this.id,
+      required this.userId,
+      required this.resultId,
+      required this.fotoPath,
+      required this.location,
+      required this.createdAt,
+      this.result,
+      this.user,
+      required this.name,
+      required this.fieldName});
 
   factory Plant.fromJson(Map<String, dynamic> json) {
     return Plant(
@@ -34,6 +37,8 @@ class Plant {
       resultId: json['resultId'] ?? 0,
       fotoPath: json['fotoPath'],
       location: json['location'],
+      name: json['name'] ?? "None",
+      fieldName: json['fieldName'] ?? "No description",
       // Format the date to remove T and Z in the date (look api call)
       createdAt: formatter.format(DateTime.parse(json['createdAt'])),
       result: Result.fromJson(json["result"] ?? {}),
@@ -45,6 +50,8 @@ class Plant {
         'userId': userId,
         'resultId': resultId,
         'fotoPath': fotoPath,
-        'location': location
+        'location': location,
+        'fieldName': fieldName,
+        'name': name
       };
 }

@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/pages/login_page.dart';
+import 'package:project40_mobile_app/pages/photo_detail.dart';
 import 'package:project40_mobile_app/pages/plant_list.dart';
 import 'package:project40_mobile_app/pages/photo.dart';
 import 'package:project40_mobile_app/global_vars.dart' as global;
@@ -40,8 +41,8 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      const Size(30, 50) // put the width and height you want
+                  fixedSize:
+                      const Size(200, 60) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToUpload();
@@ -60,8 +61,8 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      const Size(30, 50) // put the width and height you want
+                  fixedSize:
+                      const Size(200, 60) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToPhoto();
@@ -80,8 +81,8 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      const Size(30, 50) // put the width and height you want
+                  fixedSize:
+                      const Size(200, 60) // put the width and height you want
                   ),
               onPressed: () {
                 _navigateToResults();
@@ -98,8 +99,8 @@ class _HomePageState extends State<HomePage> {
             const Padding(padding: EdgeInsets.all(10.0)),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      const Size(30, 50) // put the width and height you want
+                  fixedSize:
+                      const Size(200, 60) // put the width and height you want
                   ),
               onPressed: () {
                 _logout();
