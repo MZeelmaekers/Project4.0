@@ -40,9 +40,11 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
       appBar: AppBar(
         title: const Text("Result detail"),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: _plantDetails(),
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          child: _plantDetails(),
+        ),
       ),
     );
   }
@@ -72,6 +74,16 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               }
             },
           ),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+          ),
+          Text(
+            "Plant name: " + plant!.name,
+            style: textStyle,
+          ),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+          ),
           Text(
             "Result: " + plant!.result!.prediction,
             style: textStyle,
@@ -79,8 +91,13 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
           const Padding(
             padding: EdgeInsets.all(10.0),
           ),
+          Text("Accuracy: " + plant!.result!.accuracy.toString(),
+              style: textStyle),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+          ),
           Text(
-            "Location: " + plant!.location,
+            "Field description: " + plant!.fieldName!,
             style: textStyle,
           ),
           const Padding(
@@ -93,8 +110,10 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
           const Padding(
             padding: EdgeInsets.all(10.0),
           ),
-          Text("Accuracy: " + plant!.result!.accuracy.toString(),
-              style: textStyle)
+          Text(
+            "Location: " + plant!.location,
+            style: textStyle,
+          ),
         ],
       );
     }
