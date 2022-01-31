@@ -97,7 +97,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
             padding: EdgeInsets.all(10.0),
           ),
           Text(
-            "Field description: " + plant!.fieldName!,
+            "Field description: " + plant!.fieldName,
             style: textStyle,
           ),
           const Padding(

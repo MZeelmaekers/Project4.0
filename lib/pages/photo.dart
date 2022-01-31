@@ -1,23 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:camera/camera.dart';
-import 'package:dio/dio.dart';
-import 'package:image/image.dart' as img;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:azblob/azblob.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:project40_mobile_app/apis/plant_api.dart';
-import 'package:project40_mobile_app/apis/result_api.dart';
-import 'package:project40_mobile_app/models/plant.dart';
-import 'package:project40_mobile_app/models/result.dart';
 import 'package:project40_mobile_app/pages/photo_detail.dart';
-import 'package:project40_mobile_app/pages/plant_detail.dart';
-import 'package:project40_mobile_app/global_vars.dart' as global;
-import 'package:path/path.dart' as path;
-import 'package:async/async.dart' as async;
-import 'package:http/http.dart' as http;
 
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
@@ -78,46 +64,48 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                     padding: EdgeInsets.all(10.0),
                   ),
                   Center(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(70, 70),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(180.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(70, 70),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(180.0),
+                            ),
+                          ),
+
+                          // Provide an onPressed callback.
+                          onPressed: () async {
+                            // Take the Picture in a try / catch block. If anything goes wrong,
+                            // catch the error.
+                            try {
+                              // Ensure that the camera is initialized.
+                              await _initializeControllerFuture;
+
+                              // Attempt to take a picture and then get the location
+                              // where the image file is saved.
+                              final image = await _controller.takePicture();
+
+                              _navigateToPhotoDetailPage(image);
+                            } on AzureStorageException catch (ex) {
+                              // Error of Azure
+                              print(ex.message);
+                            } catch (e) {
+                              // If an error occurs, log the error to the console.
+                              print(e);
+                            }
+                          },
+
+                          child: const Icon(
+                            Icons.camera_alt,
+                            size: 36,
                           ),
                         ),
-
-                      // Provide an onPressed callback.
-                      onPressed: () async {
-                        // Take the Picture in a try / catch block. If anything goes wrong,
-                        // catch the error.
-                        try {
-                          // Ensure that the camera is initialized.
-                          await _initializeControllerFuture;
-
-                          // Attempt to take a picture and then get the location
-                          // where the image file is saved.
-                          final image = await _controller.takePicture();
-                          
-                          _navigateToPhotoDetailPage(image);
-                        } on AzureStorageException catch (ex) {
-                          // Error of Azure
-                          print(ex.message);
-                        } catch (e) {
-                          // If an error occurs, log the error to the console.
-                          print(e);
-                        }
-                      },
-
-                      child: const Icon(
-                        Icons.camera_alt,
-                        size: 36,
-                      ),
-                    ],
-                  ))
+                      ],
+                    ),
+                  ),
                 ],
               ),
             );
@@ -131,11 +119,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   }
 
   void _navigateToPhotoDetailPage(XFile image) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => PhotoDetailPage(image: image)));
+    await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => PhotoDetailPage(image: image)));
   }
-
-  
 }
