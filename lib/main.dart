@@ -18,6 +18,7 @@ class AnalyserApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Botanic Analyser App',
       theme: ThemeData(
+        fontFamily: 'ProximaNova',
         primarySwatch: Colors.green,
       ),
       home: const LoginPage(),

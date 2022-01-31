@@ -1,6 +1,9 @@
 import 'dart:typed_data';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:azblob/azblob.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/apis/plant_api.dart';
 import 'package:project40_mobile_app/apis/result_api.dart';
@@ -10,6 +13,9 @@ import 'package:project40_mobile_app/pages/photo_detail.dart';
 import 'package:project40_mobile_app/pages/plant_detail.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project40_mobile_app/global_vars.dart' as global;
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart' as async;
+import 'package:http/http.dart' as http;
 
 class UploadPhotoPage extends StatefulWidget {
   const UploadPhotoPage({Key? key}) : super(key: key);
@@ -61,7 +67,6 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
       ),
     );
   }
-
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
         await picker.pickImage(source: ImageSource.gallery);

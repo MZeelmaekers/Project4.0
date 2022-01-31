@@ -78,13 +78,17 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                     padding: EdgeInsets.all(10.0),
                   ),
                   Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(70, 70),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(180.0),
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(70, 70),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(180.0),
+                          ),
                         ),
-                      ),
 
                       // Provide an onPressed callback.
                       onPressed: () async {
@@ -112,8 +116,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                         Icons.camera_alt,
                         size: 36,
                       ),
-                    ),
-                  )
+                    ],
+                  ))
                 ],
               ),
             );
