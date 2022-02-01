@@ -6,6 +6,8 @@ import 'package:project40_mobile_app/apis/user_api.dart';
 import 'package:project40_mobile_app/models/user.dart';
 import 'package:project40_mobile_app/pages/home.dart';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -26,6 +28,28 @@ class _LoginPageState extends State<LoginPage> {
       token: "");
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  var message = "Connected to internet";
+  bool connected = true;
+
+  @override
+  initState() {
+    super.initState();
+    var subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        setState(() {
+          message = "Please connect to internet";
+          connected = false;
+        });
+      } else {
+        setState(() {
+          message = "Connected to internet";
+          connected = true;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +61,10 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             const Padding(padding: EdgeInsets.all(10.0)),
             _loginForm(),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            _connectionMessage()
           ],
         ),
       ),
@@ -107,5 +135,37 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const HomePage()));
     });
+  }
+
+  _connectionMessage() {
+    if (!connected) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.red[200],
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        padding: const EdgeInsets.all(10.0),
+        child: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 16.0,
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.green[200],
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        padding: const EdgeInsets.all(10.0),
+        child: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 16.0,
+          ),
+        ),
+      );
+    }
   }
 }

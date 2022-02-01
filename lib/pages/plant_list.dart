@@ -94,15 +94,15 @@ class _PlantListPageState extends State<PlantListPage> {
                   },
                 ),
                 title: Text(
-                  plantList[position].createdAt.toString(),
+                  plantList[position].name,
                   style: const TextStyle(
                     fontSize: 16.0,
                     decoration: TextDecoration.none,
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  plantList[position].location.toString(),
+                  plantList[position].createdAt.toString(),
                   style: const TextStyle(
                     fontSize: 16.0,
                     decoration: TextDecoration.none,

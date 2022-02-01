@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project40_mobile_app/pages/login_page.dart';
-import 'package:project40_mobile_app/pages/photo_detail.dart';
 import 'package:project40_mobile_app/pages/plant_list.dart';
 import 'package:project40_mobile_app/pages/photo.dart';
 import 'package:project40_mobile_app/global_vars.dart' as global;
@@ -114,6 +113,30 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            const Padding(padding: EdgeInsets.all(10.0)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  "assets/images/vito_logo.png",
+                  width: 250,
+                ),
+              ],
+            ),
+            const Padding(padding: EdgeInsets.all(10.0)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Image.asset(
+                  "assets/images/tm_standaardlogo_web.png",
+                  width: 100,
+                ),
+                Image.asset(
+                  "assets/images/botanic_logo.png",
+                  width: 100,
+                )
+              ],
+            )
           ],
         ),
       ),
