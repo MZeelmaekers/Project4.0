@@ -67,4 +67,16 @@ class PlantApi {
       return id;
     }
   }
+
+  static Future deletePlant(int id) async {
+    var url = Uri.https(server, '/api/Plant/' + id.toString());
+
+    final http.Response response = await http
+        .delete(url, headers: {"Authorization": "Bearer " + global.userToken});
+    if (response.statusCode == 204) {
+      return;
+    } else {
+      throw Exception('Failed to delete plant');
+    }
+  }
 }

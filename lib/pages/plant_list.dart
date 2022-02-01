@@ -86,6 +86,7 @@ class _PlantListPageState extends State<PlantListPage> {
             elevation: 2.0,
             margin: const EdgeInsets.all(10.0),
             child: ListTile(
+              
                 leading: FutureBuilder<Uint8List>(
                   future: _getImage(plantList[position].fotoPath),
                   builder: (BuildContext context,

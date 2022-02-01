@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:azblob/azblob.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:project40_mobile_app/apis/result_api.dart';
+import 'package:project40_mobile_app/pages/plant_list.dart';
 import '../models/plant.dart';
 import '../apis/plant_api.dart';
 
@@ -40,6 +42,34 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red[400],
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext contex) {
+                return AlertDialog(
+                  title: const Text('Do you want to delete this result?'),
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _deletePlant();
+                        Navigator.pop(context, true);
+                      },
+                      child: const Text('Confirm'),
+                    ),
+                  ],
+                );
+              });
+        },
+        child: Icon(Icons.delete),
+      ),
       appBar: AppBar(
         title: const Text("Result detail"),
       ),
@@ -189,6 +219,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                 ),
               ],
             ),
+            /*
             const Padding(
               padding: EdgeInsets.all(10.0),
             ),
@@ -210,6 +241,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                 ),
               ],
             ),
+            */
           ],
         ),
       );
@@ -231,5 +263,34 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
     });
     // Returns the bytes of the image and these will be used to show the image.
     return bytes;
+  }
+
+  void _deletePlant() async {
+    await PlantApi.deletePlant(plant!.id).then((result) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.green[400],
+          content: Text("Deleted the result")));
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red[400], content: Text(error.toString())));
+    });
+
+    await ResultApi.deleteResult(plant!.resultId)
+        .then((result) {})
+        .onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red[400], content: Text(error.toString())));
+    });
+
+    await azureStorage
+        .putBlob("/botanic/" + plant!.fotoPath, bodyBytes: Uint8List(1))
+        .then((result) {})
+        .onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red[400], content: Text(error.toString())));
+    });
+
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => PlantListPage()));
   }
 }
