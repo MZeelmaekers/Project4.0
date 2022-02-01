@@ -31,6 +31,9 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
       setState(() {
         plant = result;
       });
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red[400], content: Text(error.toString())));
     });
   }
 
@@ -219,6 +222,9 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
     Uint8List bytes = Uint8List(1);
     await azureStorage.getBlob('/botanic/' + imageName).then((result) {
       stream = result.stream;
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red[400], content: Text(error.toString())));
     });
     await stream!.toBytes().then((result) {
       bytes = result;

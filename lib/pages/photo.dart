@@ -90,11 +90,16 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
                               _navigateToPhotoDetailPage(image);
                             } on AzureStorageException catch (ex) {
-                              // Error of Azure
-                              print(ex.message);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      backgroundColor: Colors.red[400],
+                                      content: Text(ex.toString())));
                             } catch (e) {
                               // If an error occurs, log the error to the console.
-                              print(e);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      backgroundColor: Colors.red[400],
+                                      content: Text(e.toString())));
                             }
                           },
 

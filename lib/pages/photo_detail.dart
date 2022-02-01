@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
-import 'package:dio/dio.dart';
-import 'package:image/image.dart' as img;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:azblob/azblob.dart';
@@ -102,7 +100,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: _onCancel,
-                      child: Text(
+                      child: const Text(
                         "Cancel",
                         style: TextStyle(
                           fontSize: 20.0,
@@ -116,13 +114,13 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                           ),
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(10.0),
                   ),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: _onSave,
-                      child: Text(
+                      child: const Text(
                         "Save",
                         style: TextStyle(
                           fontSize: 20.0,

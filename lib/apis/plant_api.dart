@@ -25,8 +25,8 @@ class PlantApi {
   static Future<List<Plant>> fetchPlantsFromUserId(int id) async {
     var url = Uri.https(server, '/api/Plant/User/' + id.toString());
 
-    final response =
-        await http.get(url, headers: {"Authorization": "Bearer " + global.userToken});
+    final response = await http
+        .get(url, headers: {"Authorization": "Bearer " + global.userToken});
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -40,7 +40,8 @@ class PlantApi {
   static Future<Plant> fetchPlant(int id) async {
     var url = Uri.https(server, '/api/Plant/' + id.toString());
 
-    final response = await http.get(url, headers: {"Authorization": "Bearer " + global.userToken});
+    final response = await http
+        .get(url, headers: {"Authorization": "Bearer " + global.userToken});
 
     if (response.statusCode == 200) {
       return Plant.fromJson(jsonDecode(response.body));
