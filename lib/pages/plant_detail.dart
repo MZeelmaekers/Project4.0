@@ -53,68 +53,162 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
     if (plant == null) {
       return const Center(child: CircularProgressIndicator());
     } else {
-      const TextStyle? textStyle = TextStyle(
+      const TextStyle? varTextStyle = TextStyle(
         fontSize: 20.0,
         decoration: TextDecoration.none,
         fontWeight: FontWeight.normal,
       );
-      return Column(
-        children: <Widget>[
-          const Padding(padding: EdgeInsets.all(10.0)),
-          FutureBuilder<Uint8List>(
-            future: _getImage(plant!.fotoPath),
-            builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Image.memory(
-                  snapshot.data!,
-                  height: 400.0,
-                );
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-          ),
-          Text(
-            "Plant name: " + plant!.name,
-            style: textStyle,
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-          ),
-          Text(
-            "Result: " + plant!.result!.prediction,
-            style: textStyle,
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-          ),
-          Text("Accuracy: " + plant!.result!.accuracy.toString(),
-              style: textStyle),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-          ),
-          Text(
-            "Field description: " + plant!.fieldName,
-            style: textStyle,
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-          ),
-          Text(
-            "Date: " + plant!.createdAt,
-            style: textStyle,
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-          ),
-          Text(
-            "Location: " + plant!.location,
-            style: textStyle,
-          ),
-        ],
+      const TextStyle? staticTextStyle = TextStyle(
+        fontSize: 20.0,
+        decoration: TextDecoration.none,
+        fontWeight: FontWeight.bold,
+      );
+      return Container(
+        padding: EdgeInsets.all(10),
+        constraints: BoxConstraints.tight(Size(
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Padding(padding: EdgeInsets.all(10.0)),
+            FutureBuilder<Uint8List>(
+              future: _getImage(plant!.fotoPath),
+              builder:
+                  (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Image.memory(
+                    snapshot.data!,
+                    height: 400.0,
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  "Plant name: ",
+                  style: staticTextStyle,
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Text(
+                    plant!.name,
+                    style: varTextStyle,
+                  ),
+                ),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  "Result: ",
+                  style: staticTextStyle,
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Text(
+                    plant!.result!.prediction,
+                    style: varTextStyle,
+                  ),
+                ),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text("Accuracy: ", style: staticTextStyle),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Text(plant!.result!.accuracy.toStringAsFixed(2),
+                      style: varTextStyle),
+                ),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  "Field: ",
+                  style: staticTextStyle,
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Text(
+                    plant!.fieldName,
+                    style: varTextStyle,
+                  ),
+                ),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  "Date: ",
+                  style: staticTextStyle,
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Text(
+                    plant!.createdAt,
+                    style: varTextStyle,
+                  ),
+                ),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  "Location: ",
+                  style: staticTextStyle,
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Text(
+                    plant!.location,
+                    style: varTextStyle,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       );
     }
   }
