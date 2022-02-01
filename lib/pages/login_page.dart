@@ -30,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   var message = "Connected to internet";
   bool connected = true;
+  var errorMessage;
 
   @override
   initState() {
@@ -104,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.all(10.0),
         ),
         ElevatedButton(
-          onPressed: _login,
+          onPressed: connected ? _login : null,
           child: const Text(
             "Login",
             style: TextStyle(
@@ -134,6 +135,9 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const HomePage()));
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red[400], content: Text(error.toString())));
     });
   }
 
