@@ -124,6 +124,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   }
 
   void _navigateToPhotoDetailPage(XFile image) async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green[400],
+        content: Text("Successfully taken an image")));
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => PhotoDetailPage(image: image)));
   }

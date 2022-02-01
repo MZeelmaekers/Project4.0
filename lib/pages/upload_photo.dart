@@ -53,6 +53,7 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
       ),
     );
   }
+
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
         await picker.pickImage(source: ImageSource.gallery);
@@ -62,6 +63,9 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
   }
 
   void _navigateToPhotoDetailPage(XFile image) async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green[400],
+        content: Text("Successfully picked an image")));
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => PhotoDetailPage(image: image)));
   }

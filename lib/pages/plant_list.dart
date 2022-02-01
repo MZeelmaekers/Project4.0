@@ -42,6 +42,9 @@ class _PlantListPageState extends State<PlantListPage> {
         plantList = result;
         count = result.length;
       });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.green[400],
+          content: Text("Successfully loaded results")));
     }).onError((error, stackTrace) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red[400], content: Text(error.toString())));

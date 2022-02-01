@@ -164,6 +164,9 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
     // Create a plant object in the database
     int plantId = await _createPlant(image.name, newResult.id);
 
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green[400],
+        content: Text("Successfully created a result")));
     // Go to the Result detail page of the newly created object
     await Navigator.push(
       context,
