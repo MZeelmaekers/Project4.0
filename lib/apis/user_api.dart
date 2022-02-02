@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:localization/src/localization_extension.dart';
 import 'package:project40_mobile_app/models/user.dart';
 import 'dart:convert';
 
@@ -19,7 +20,7 @@ class UserApi {
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to login user');
+      throw Exception('user_api-failed_login'.i18n());
     }
   }
 }

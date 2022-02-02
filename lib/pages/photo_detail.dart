@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:azblob/azblob.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:localization/src/localization_extension.dart';
 import 'package:project40_mobile_app/apis/plant_api.dart';
 import 'package:project40_mobile_app/apis/result_api.dart';
 import 'package:project40_mobile_app/models/plant.dart';
@@ -31,7 +32,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Photo details")),
+      appBar: AppBar(title: Text('photo_detail-title'.i18n())),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(10),
@@ -56,9 +57,9 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
               const Padding(
                 padding: EdgeInsets.all(10.0),
               ),
-              const Text(
-                "Plant name",
-                style: TextStyle(
+              Text(
+                "photo_detail-plant_name_text".i18n(),
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
@@ -67,7 +68,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                 keyboardType: TextInputType.text,
                 autofocus: true,
                 decoration: InputDecoration(
-                  labelText: "Plant name",
+                  labelText: "photo_detail-plant_name_text".i18n(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
@@ -76,9 +77,9 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
               const Padding(
                 padding: EdgeInsets.all(10.0),
               ),
-              const Text(
-                "Field name",
-                style: TextStyle(
+              Text(
+                "photo_detail-field_description_text".i18n(),
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
@@ -86,7 +87,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                 controller: fieldNameController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  labelText: "Field description",
+                  labelText: "photo_detail-field_description_text".i18n(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
@@ -100,9 +101,9 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: _onCancel,
-                      child: const Text(
-                        "Cancel",
-                        style: TextStyle(
+                      child: Text(
+                        "cancel-text".i18n(),
+                        style: const TextStyle(
                           fontSize: 20.0,
                           decoration: TextDecoration.none,
                           fontWeight: FontWeight.normal,
@@ -120,9 +121,9 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: _onSave,
-                      child: const Text(
-                        "Save",
-                        style: TextStyle(
+                      child: Text(
+                        'confirm-text'.i18n(),
+                        style: const TextStyle(
                           fontSize: 20.0,
                           decoration: TextDecoration.none,
                           fontWeight: FontWeight.normal,
@@ -166,7 +167,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.green[400],
-        content: Text("Successfully created a result")));
+        content: Text('photo_detail-snackbar_success_result'.i18n())));
     // Go to the Result detail page of the newly created object
     await Navigator.push(
       context,

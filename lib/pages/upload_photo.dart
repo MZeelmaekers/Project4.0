@@ -1,5 +1,6 @@
 import 'package:azblob/azblob.dart';
 import 'package:flutter/material.dart';
+import 'package:localization/src/localization_extension.dart';
 import 'package:project40_mobile_app/pages/photo_detail.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -19,16 +20,16 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Upload picture"),
+        title: Text("upload_photo-title".i18n()),
       ),
       body: Container(
         child: Center(
           child: Column(
             children: <Widget>[
               const Padding(padding: EdgeInsets.all(10.0)),
-              const Text(
-                "Upload a picture from your gallery.",
-                style: TextStyle(
+              Text(
+                "upload_photo-upload_text".i18n(),
+                style: const TextStyle(
                   fontSize: 20.0,
                   decoration: TextDecoration.none,
                   fontWeight: FontWeight.normal,
@@ -65,7 +66,7 @@ class _UploadPhotoPageState extends State<UploadPhotoPage> {
   void _navigateToPhotoDetailPage(XFile image) async {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.green[400],
-        content: Text("Successfully picked an image")));
+        content: Text("upload_photo-snackbar_upload_success".i18n())));
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => PhotoDetailPage(image: image)));
   }

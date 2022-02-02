@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:azblob/azblob.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:localization/src/localization_extension.dart';
 import 'package:project40_mobile_app/pages/photo_detail.dart';
 
 class TakePictureScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   Widget build(BuildContext context) {
     // Fill this out in the next steps.
     return Scaffold(
-      appBar: AppBar(title: const Text('Take a picture')),
+      appBar: AppBar(title: Text('photo-title'.i18n())),
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
       // controller has finished initializing.
@@ -126,7 +127,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   void _navigateToPhotoDetailPage(XFile image) async {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.green[400],
-        content: Text("Successfully taken an image")));
+        content: Text("photo-snackbar_photo_taken_success".i18n())));
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => PhotoDetailPage(image: image)));
   }

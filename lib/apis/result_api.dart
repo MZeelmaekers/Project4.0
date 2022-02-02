@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:localization/src/localization_extension.dart';
 import 'dart:convert';
 import '../models/result.dart';
 
@@ -18,7 +19,7 @@ class ResultApi {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((result) => Result.fromJson(result)).toList();
     } else {
-      throw Exception("Failed to load users");
+      throw Exception("result_api-failed_results_text".i18n());
     }
   }
 
@@ -30,7 +31,7 @@ class ResultApi {
     if (response.statusCode == 200) {
       return Result.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Failed to load Result");
+      throw Exception("result_api-failed_result_text".i18n());
     }
   }
 
@@ -45,7 +46,7 @@ class ResultApi {
       body: jsonEncode(result),
     );
     if (response.statusCode != 201) {
-      throw Exception("Failed to create Plant");
+      throw Exception("result_api-failed_create_result_text".i18n());
     } else {
       return Result.fromJson(jsonDecode(response.body));
     }
@@ -59,7 +60,7 @@ class ResultApi {
     if (response.statusCode == 204) {
       return;
     } else {
-      throw Exception('Failed to delete result');
+      throw Exception('result_api-failed_delete_result_text');
     }
   }
 }
