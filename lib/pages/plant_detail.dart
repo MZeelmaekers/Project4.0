@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:azblob/azblob.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:localization/src/localization_extension.dart';
 import 'package:project40_mobile_app/apis/result_api.dart';
 import 'package:project40_mobile_app/pages/plant_list.dart';
 import '../models/plant.dart';
@@ -49,20 +50,20 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               context: context,
               builder: (BuildContext contex) {
                 return AlertDialog(
-                  title: const Text('Do you want to delete this result?'),
+                  title: Text("plant_detail-delete_question".i18n()),
                   actions: [
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context, true);
                       },
-                      child: const Text('Cancel'),
+                      child: Text('cancel-text'.i18n()),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         _deletePlant();
                         Navigator.pop(context, true);
                       },
-                      child: const Text('Confirm'),
+                      child: Text('confirm-text'.i18n()),
                     ),
                   ],
                 );
@@ -71,7 +72,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
         child: Icon(Icons.delete),
       ),
       appBar: AppBar(
-        title: const Text("Result detail"),
+        title: Text("plant_detail-title".i18n()),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -127,8 +128,8 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  "Plant name: ",
+                Text(
+                  "plant_detail-plant_name_text".i18n(),
                   style: staticTextStyle,
                 ),
                 Flexible(
@@ -148,8 +149,8 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  "Result: ",
+                Text(
+                  "plant_detail-result_text".i18n(),
                   style: staticTextStyle,
                 ),
                 Flexible(
@@ -169,10 +170,10 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text("Accuracy: ", style: staticTextStyle),
+                Text("plant_detail-accuracy_text".i18n(), style: staticTextStyle),
                 Flexible(
                   fit: FlexFit.tight,
-                  child: Text(plant!.result!.accuracy.toStringAsFixed(2),
+                  child: Text(plant!.result!.accuracy.toStringAsFixed(2) + " %",
                       style: varTextStyle),
                 ),
               ],
@@ -185,8 +186,8 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  "Field: ",
+                Text(
+                  "plant_detail-field_text".i18n(),
                   style: staticTextStyle,
                 ),
                 Flexible(
@@ -206,8 +207,8 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  "Date: ",
+                Text(
+                  "plant_detail-date_text".i18n(),
                   style: staticTextStyle,
                 ),
                 Flexible(
@@ -229,7 +230,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Text(
-                  "Location: ",
+                  "plant_detail-location_text".i18n(),
                   style: staticTextStyle,
                 ),
                 Flexible(
@@ -269,7 +270,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
     await PlantApi.deletePlant(plant!.id).then((result) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green[400],
-          content: Text("Deleted the result")));
+          content: Text("plant_detail-snackbar_delete_result_success".i18n())));
     }).onError((error, stackTrace) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red[400], content: Text(error.toString())));

@@ -1,3 +1,4 @@
+import 'package:localization/src/localization_extension.dart';
 import 'package:project40_mobile_app/global_vars.dart' as global;
 
 import 'package:flutter/cupertino.dart';
@@ -28,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       token: "");
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  var message = "Connected to internet";
+  var message = 'login-connected_msg'.i18n();
   bool connected = true;
   var errorMessage;
 
@@ -40,12 +41,12 @@ class _LoginPageState extends State<LoginPage> {
         .listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none) {
         setState(() {
-          message = "Please connect to internet";
+          message = 'login-not_connected_msg'.i18n();
           connected = false;
         });
       } else {
         setState(() {
-          message = "Connected to internet";
+          message = 'login-connected_msg'.i18n();
           connected = true;
         });
       }
@@ -55,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
+      appBar: AppBar(title: Text('login-login_text'.i18n())),
       body: Container(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -75,12 +76,12 @@ class _LoginPageState extends State<LoginPage> {
   _loginForm() {
     return Column(
       children: <Widget>[
-        const Text("Email"),
+        Text('login-email_text'.i18n()),
         TextField(
           controller: emailController,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            labelText: "Email",
+            labelText: 'login-email_text'.i18n(),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
@@ -89,13 +90,13 @@ class _LoginPageState extends State<LoginPage> {
         const Padding(
           padding: EdgeInsets.all(10.0),
         ),
-        const Text("Password"),
+        Text('login-password_text'.i18n()),
         TextField(
           controller: passwordController,
           obscureText: true,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            labelText: "Password",
+            labelText: 'login-password_text'.i18n(),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
@@ -106,9 +107,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
         ElevatedButton(
           onPressed: connected ? _login : null,
-          child: const Text(
-            "Login",
-            style: TextStyle(
+          child: Text(
+            'login-login_text'.i18n(),
+            style: const TextStyle(
               fontSize: 20.0,
               decoration: TextDecoration.none,
               fontWeight: FontWeight.normal,

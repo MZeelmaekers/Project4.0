@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:localization/src/localization_extension.dart';
 import 'dart:convert';
 import '../models/plant.dart';
 
@@ -18,7 +19,7 @@ class PlantApi {
 
       return jsonResponse.map((plant) => Plant.fromJson(plant)).toList();
     } else {
-      throw Exception("Failed to load plants");
+      throw Exception("plant_api-failed_plants_text".i18n());
     }
   }
 
@@ -33,7 +34,7 @@ class PlantApi {
 
       return jsonResponse.map((plant) => Plant.fromJson(plant)).toList();
     } else {
-      throw Exception("Failed to load plants");
+      throw Exception("plant_api-failed_plant_text".i18n());
     }
   }
 
@@ -46,7 +47,7 @@ class PlantApi {
     if (response.statusCode == 200) {
       return Plant.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Failed to load plant");
+      throw Exception("plant_api-failed_plant_text".i18n());
     }
   }
 
@@ -61,7 +62,7 @@ class PlantApi {
       body: jsonEncode(plant),
     );
     if (response.statusCode != 201) {
-      throw Exception("Failed to create Plant");
+      throw Exception("plant_api-failed_create_plant_text".i18n());
     } else {
       var id = json.decode(response.body)["id"];
       return id;
@@ -76,7 +77,7 @@ class PlantApi {
     if (response.statusCode == 204) {
       return;
     } else {
-      throw Exception('Failed to delete plant');
+      throw Exception('plant_api-failed_delete_plant_text'.i18n());
     }
   }
 }

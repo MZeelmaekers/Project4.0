@@ -4,6 +4,7 @@ import 'package:azblob/azblob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:localization/src/localization_extension.dart';
 import 'package:project40_mobile_app/pages/plant_detail.dart';
 import '../models/plant.dart';
 import '../apis/plant_api.dart';
@@ -44,7 +45,7 @@ class _PlantListPageState extends State<PlantListPage> {
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green[400],
-          content: Text("Successfully loaded results")));
+          content: Text("plant_list-snackbar_results_loaded_success".i18n())));
     }).onError((error, stackTrace) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red[400], content: Text(error.toString())));
@@ -59,13 +60,13 @@ class _PlantListPageState extends State<PlantListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Results"),
+        title: Text("plant_list-title".i18n()),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _getPlants();
         },
-        tooltip: "Refresh",
+        tooltip: "plant_list-tooltip_refresh",
         child: const Icon(Icons.refresh),
       ),
       body: _isLoading
