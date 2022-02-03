@@ -42,7 +42,7 @@ class AnalyserApp extends StatelessWidget {
         return Locale('en');
       },
       debugShowCheckedModeBanner: false,
-      title: 'Botanic Analyser App',
+      title: 'VITO Analyser App',
       theme: ThemeData(
         fontFamily: 'ProximaNova',
         primarySwatch: Colors.green,
