@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:localization/localization.dart';
 import 'package:project40_mobile_app/pages/login.dart';
-
-const storage = FlutterSecureStorage();
 
 void main() {
   runApp(AnalyserApp());

@@ -70,7 +70,9 @@ class _PlantListPageState extends State<PlantListPage> {
         child: const Icon(Icons.refresh),
       ),
       body: _isLoading
-          ? const CircularProgressIndicator()
+          ? Container(
+              padding: EdgeInsets.all(20),
+              child: const CircularProgressIndicator())
           : Container(
               alignment: Alignment.center,
               child: _plantListItems(),
@@ -87,7 +89,6 @@ class _PlantListPageState extends State<PlantListPage> {
             elevation: 2.0,
             margin: const EdgeInsets.all(10.0),
             child: ListTile(
-              
                 leading: FutureBuilder<Uint8List>(
                   future: _getImage(plantList[position].fotoPath),
                   builder: (BuildContext context,
