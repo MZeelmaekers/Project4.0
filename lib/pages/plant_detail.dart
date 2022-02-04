@@ -85,7 +85,10 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
 
   _plantDetails() {
     if (plant == null) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+          child: Container(
+              padding: EdgeInsets.all(20),
+              child: const CircularProgressIndicator()));
     } else {
       const TextStyle? varTextStyle = TextStyle(
         fontSize: 20.0,
@@ -116,7 +119,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                     height: 400.0,
                   );
                 } else {
-                  return const CircularProgressIndicator();
+                  return Container(child: const CircularProgressIndicator());
                 }
               },
             ),
@@ -170,7 +173,8 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("plant_detail-accuracy_text".i18n(), style: staticTextStyle),
+                Text("plant_detail-accuracy_text".i18n(),
+                    style: staticTextStyle),
                 Flexible(
                   fit: FlexFit.tight,
                   child: Text(plant!.result!.accuracy.toStringAsFixed(2) + " %",
@@ -220,29 +224,6 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                 ),
               ],
             ),
-            /*
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text(
-                  "plant_detail-location_text".i18n(),
-                  style: staticTextStyle,
-                ),
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: Text(
-                    plant!.location,
-                    style: varTextStyle,
-                  ),
-                ),
-              ],
-            ),
-            */
           ],
         ),
       );
