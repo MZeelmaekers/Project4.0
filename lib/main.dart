@@ -23,6 +23,7 @@ class AnalyserApp extends StatelessWidget {
         LocalJsonLocalization.delegate,
       ],
       supportedLocales: [Locale('en'), Locale('nl'), Locale('fr')],
+      // Get the language of the smartphone
       localeResolutionCallback: (locale, supportedLocales) {
         if (supportedLocales.contains(locale)) {
           return locale;
